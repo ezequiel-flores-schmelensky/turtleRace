@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <script src="https://cdn.socket.io/4.5.3/socket.io.min.js"></script>
+    <script src="app.js" defer></script>
+
+    <style>
+        * {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .col {
+            border: 1px solid grey;
+            width: 50%;
+            padding: 10px;
+        }
+
+        .col25 {
+            width: 25%;
+        }
+
+        .col75 {
+            width: 75%;
+        }
+
+        #c2,
+        #usersList,
+        .stack
+        {
+            display: flex;
+            flex-direction: column;
+        }
+        #userList > span{
+            color:gray;
+            font-size: 0.75rem;
+        }
+        
+        #chatcontainer > div{
+            background-color: #b9d2f8;
+            border-radius: 3px;
+            padding:5px;
+            margin:2px;
+        }
+
+        #chatcontainer > div:nth-of-type(odd){
+            background-color: rgb(140, 249, 169);
+        }
+
+        #chatcontainer > div.leftChat{
+            background-color: red;
+            color: #efefef;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div id="user">
+        <form id="frm">
+            User: <input type="text" id="txtUser" placeholder="User name"><button>Go</button>
+        </form>
+    </div>
+    <div id="chat" class="hide">
+        <h1 class="center">Chat</h1>
+        <div class="container">
+            <div id="c1" class="col col25">User List
+
+                <div id="userList" class="stack">
+                    
+                </div>
+            </div>
+            <div id="c2" class="col col75">
+                <div id="chatcontainer"></div>
+                <input type="text" name="" id="txtChat">
+                <button id="btnSend">Send</button>
+            </div>
+        </div>
+        <div><button id="btnLeave">Leave</button></div>
+    </div>
+</body>
+
+</html>
