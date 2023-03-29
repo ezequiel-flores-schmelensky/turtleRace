@@ -7,72 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     
+    <link   href="css/app.css" type="text/css" rel="stylesheet"  />
     <script src="https://cdn.socket.io/4.5.3/socket.io.min.js"></script>
-    <script src="app.js" defer></script>
-
-    <style>
-        * {
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        }
-
-        .hide {
-            display: none;
-        }
-
-        .center {
-            text-align: center;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-        }
-
-        .col {
-            border: 1px solid grey;
-            width: 50%;
-            padding: 10px;
-        }
-
-        .col25 {
-            width: 25%;
-        }
-
-        .col75 {
-            width: 75%;
-        }
-
-        #c2,
-        #usersList,
-        .stack
-        {
-            display: flex;
-            flex-direction: column;
-        }
-        #userList > span{
-            color:gray;
-            font-size: 0.75rem;
-        }
-        
-        #chatcontainer > div{
-            background-color: #b9d2f8;
-            border-radius: 3px;
-            padding:5px;
-            margin:2px;
-        }
-
-        #chatcontainer > div:nth-of-type(odd){
-            background-color: rgb(140, 249, 169);
-        }
-
-        #chatcontainer > div.leftChat{
-            background-color: red;
-            color: #efefef;
-        }
-
-
-    </style>
+    <script src="js/app.js" defer></script>
 </head>
 
 <body>

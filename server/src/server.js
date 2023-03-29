@@ -18,7 +18,7 @@ io.on('connection', socket => {
 
     console.log('Client connected');
     // We will respond from the server and welcome the user
-    socket.emit('message', 'Welcome to my simple chat app');
+    socket.emit('message', 'Welcome to math race game');
 
     socket.on('userJoin', message => {
         // object deconstruction
