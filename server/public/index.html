@@ -13,27 +13,37 @@
 </head>
 
 <body>
-    <div id="user">
+    <div id="player">
         <form id="frm">
-            User: <input type="text" id="txtUser" placeholder="User name"><button>Go</button>
+            Player: <input type="text" id="txtPlayer" placeholder="Player name"><button>Join</button>
+            <input type="hidden" id="idPlayer">
         </form>
     </div>
     <div id="chat" class="hide">
-        <h1 class="center">Chat</h1>
-        <div class="container">
-            <div id="c1" class="col col25">User List
-
-                <div id="userList" class="stack">
-                    
+        <h1 class="center">Turtle Race</h1>
+        <div id="waiting" >
+            <button id="btnStart">Start</button>
+            <p id="waiting"> Waiting Players </p>
+        </div>
+        <div id="race" class="hide">
+            <button id="btnSend">Send</button>
+            <input type="number" name="" id="txtChat">
+            <p id="operation"> 8 X 7 = </p>
+        </div>
+        <div id="result" class="hide">
+            <button id="btnRestart">Restart</button>
+            <p id="resultText"> Player 1 Won!! </p>
+        </div>
+        <div class="main">
+            <div id="c1" class="raceTrack">
+                <div id="playerList" class="stack">
                 </div>
             </div>
-            <div id="c2" class="col col75">
+            <div id="c2" class="logger">
                 <div id="chatcontainer"></div>
-                <input type="text" name="" id="txtChat">
-                <button id="btnSend">Send</button>
             </div>
         </div>
-        <div><button id="btnLeave">Leave</button></div>
+        <div id="leave"><button id="btnLeave">Leave</button></div>
     </div>
 </body>
 

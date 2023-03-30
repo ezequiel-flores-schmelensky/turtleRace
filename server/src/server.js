@@ -10,20 +10,23 @@ app.use(express.static(path.join(__dirname, "../public")));
 const server = http.createServer(app);
 const io = require('socket.io')(server);
 
-// Track the joining users
-let users = [];
+// Track the joining players
+let players = [];
+
+// correct result
+let result = 0;
 
 // When a client connects
 io.on('connection', socket => {
 
     console.log('Client connected');
-    // We will respond from the server and welcome the user
+    // We will respond from the server and welcome the player
     socket.emit('message', 'Welcome to math race game');
 
-    socket.on('userJoin', message => {
+    socket.on('playerJoin', message => {
         // object deconstruction
-        const { user } = JSON.parse(message);
-        newUser(user, socket, io);
+        const { player } = JSON.parse(message);
+        newPlayer(player, socket, io);
     });
 
     socket.on('chatMessage', chatMessage => {
@@ -32,25 +35,95 @@ io.on('connection', socket => {
         io.sockets.emit('chatMessageBroadcast', JSON.stringify({
             chatMessage:data
         }))
+
+        if (!!data.msg && Number.isInteger(Number(data.msg))) {
+            console.log("checking result of :"+data.player);
+            if (Number(data.msg) == result) {
+                let pAux = null;
+                for (const p of players) {
+                    if (p.player == data.player) {
+                        p.distance += 1;
+                        pAux = p;
+                    }
+                }
+
+                if (pAux.distance > 10) {
+                    io.sockets.emit('winnerBroadcast', JSON.stringify({
+                        player:pAux, players
+                    }))
+                } else { 
+                    io.sockets.emit('playerMoveBroadcast', JSON.stringify({
+                        player:pAux, players
+                    }))
+    
+                    let op = generateOperation();
+                    result = op.num1*op.num2;
+                    io.sockets.emit('operationBroadcast', JSON.stringify({
+                        operation:`${op.num1} X ${op.num2} =`
+                    }))
+                }
+                
+            }
+        }
+    });
+
+    socket.on('startRace', player => {
+        const data = JSON.parse(player);
+        console.log(player);
+        io.sockets.emit('startBroadcast', JSON.stringify({
+            player
+        }))
+        
+        let op = generateOperation();
+        result = op.num1*op.num2;
+        io.sockets.emit('operationBroadcast', JSON.stringify({
+            operation:`${op.num1} X ${op.num2} =`
+        }))    
+    });
+
+    socket.on('restartRace', player => {
+        const data = JSON.parse(player);
+        console.log(player);
+
+        for (const p of players) {
+            p.distance += 1;
+        }
+
+        io.sockets.emit('restartBroadcast', JSON.stringify({
+            player, players
+        }))
+        
     });
 
     socket.on('disconnect', () => {
-        users = users.filter(u => u.id != socket.id);
-        io.sockets.emit('userDisconnect', JSON.stringify({
+        players = players.filter(u => u.id != socket.id);
+        io.sockets.emit('playerDisconnect', JSON.stringify({
             id: socket.id
         }));
     });
 });
 
-const newUser = (user, socket, io) => {
-    users.push({ user, id: socket.id });
-    console.log(users);
-    socket.emit('userJoined', 'You are now joined');
-    io.sockets.emit('userList', JSON.stringify({
-        user, users
+const newPlayer = (player, socket, io) => {
+    players.push({ player, id: socket.id, distance: 1 });
+    console.log(players);
+    socket.emit('playerJoined', 'You are now joined');
+    io.sockets.emit('playerList', JSON.stringify({
+        player, players
     }));
+}
+
+const generateOperation = () => { 
+    let num1, num2;
+    num1 = randomIntFromInterval(1,9);
+    num2 = randomIntFromInterval(1,9);
+    return {num1,num2}
+}
+
+const randomIntFromInterval = (min, max) => { 
+    return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
