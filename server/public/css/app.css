@@ -3,7 +3,7 @@
 }
 
 .hide {
-    display: none;
+    display: none !important;
 }
 
 .center {
@@ -30,7 +30,6 @@
     width: 75%;
 }
 
-#c2,
 #usersList,
 .stack
 {
@@ -57,3 +56,41 @@
     background-color: red;
     color: #efefef;
 }
+
+.main{display: flex;flex-direction: row; margin: 0 auto 0 auto;min-width: 1204px; width: 1204px;}
+#leave{width: 1204px;margin: 20px auto; display: flex; flex-direction: row-reverse; justify-content: center;}
+#waiting{font-size: 30px;width: 1204px;margin: 20px auto; display: flex; flex-direction: row-reverse; justify-content: center;}
+#race{width: 1204px;margin: 20px auto; display: flex; flex-direction: row-reverse; justify-content: center;}
+#result{font-size: 30px;width: 1204px;margin: 20px auto; display: flex; flex-direction: row-reverse; justify-content: center;}
+.raceTrack {width: 1004px;}
+.logger {width: 200px; border: solid black 1px;}
+.line {display: flex;flex-direction: row;justify-content: space-between; border: solid black 1px;}
+.p_name {min-width: 100px; width: 100px; background-color: grey;color: white;}
+.p_title{margin: 5px;margin-top: 1em; font-weight: bold;}
+.p_nick {margin: 0 5px;}
+.p_line {min-width: 800px; width: 800px; display: inline-block; background-color: chocolate;}
+.p_goal {min-width: 100px; width: 100px; background-image: url("/img/finish.png");background-repeat: no-repeat;background-size: cover;}
+.turtle {width: 80px; height: 80px;background-image: url("/img/turtle.png");background-repeat: no-repeat;background-size: cover;}
+.t_pos_1{margin-left: 0px;}
+.t_pos_2{margin-left: 80px;}
+.t_pos_3{margin-left: 160px;}
+.t_pos_4{margin-left: 240px;}
+.t_pos_5{margin-left: 320px;}
+.t_pos_6{margin-left: 400px;}
+.t_pos_7{margin-left: 480px;}
+.t_pos_8{margin-left: 560px;}
+.t_pos_9{margin-left: 640px;}
+.t_pos_10{margin-left: 720px;}
+#operation{margin: auto 30px; font-weight: bold;font-size: 40px; padding: 0px;}
+#txtChat{width: 60px; margin-right: 30px;font-size: 30px;}
+#btnSend {font-size: 2em;background-color: green; color: white; padding: 5px;}
+#chatcontainer{max-height: 500px;overflow: auto;}
+
+
+#player {width:500px; margin: 5em auto; font-size: 2em;}
+#frm {display: flex;flex-direction: column; text-align: center;}
+#frm input {width: 300; margin: 1em auto 0 auto; font-size: 1em;} 
+#frm button {width: 200; margin: 1em auto; font-size: 1em;background-color: green; color: white;} 
+#btnStart {width: 200; margin: 1em auto; font-size: 1em;background-color: green; color: white;} 
+#btnRestart {width: 200; margin: 1em auto; font-size: 1em;background-color: green; color: white;} 
+#btnLeave {font-size: 2em;background-color: green; color: white;}

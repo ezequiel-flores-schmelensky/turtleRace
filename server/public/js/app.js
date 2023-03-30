@@ -3,17 +3,25 @@ console.log('Ready');
 const q = selector => document.querySelector(selector);
 
 const frm = q('#frm');
-const userDiv = q('#user');
-const usersList = q('#userList');
+const playerDiv = q('#player');
+const playersList = q('#playerList');
 const chatDiv = q('#chat');
-const txtUser = q('#txtUser');
+const txtPlayer = q('#txtPlayer');
+const idPlayer = q('#idPlayer');
 const btnLeave = q('#btnLeave');
 const btnSend = q('#btnSend');
 const txtChat = q('#txtChat');
 const chatcontainer = q('#chatcontainer');
+const btnRestart  = q('#btnRestart');
+const btnStart    = q('#btnStart');
+const resultDiv   = q('#result');
+const raceDiv     = q('#race');
+const waitingDiv  = q('#waiting');
+const operationDiv  = q('#operation');
+const resultTextDiv  = q('#resultText');
 
 let socket   = {};
-let userList = [];
+let playerList = [];
 
 frm.addEventListener('submit', e => {
     e.preventDefault();
@@ -24,62 +32,94 @@ frm.addEventListener('submit', e => {
         console.log(message);
     });
 
-    socket.emit('userJoin', JSON.stringify(
-        { user: txtUser.value.trim() }
+    socket.emit('playerJoin', JSON.stringify(
+        { player: txtPlayer.value.trim() }
     ));
 
-    socket.on('userJoined', message => {
+    socket.on('playerJoined', message => {
         console.log(message);
-        userDiv.classList.toggle('hide');
+        playerDiv.classList.toggle('hide');
         chatDiv.classList.toggle('hide');
     });
 
-    socket.on('userList', userList => {
-        const data = JSON.parse(userList);
+    socket.on('playerList', playerList => {
+        const data = JSON.parse(playerList);
         console.log(data);
-        userJoin(data.user);
-        loadUsers(data.users);
+        playerJoin(data.player);
+        loadPlayers(data.players);
     });
 
     socket.on('chatMessageBroadcast', msg => {
         console.log(msg);
         const { chatMessage } = JSON.parse(msg);
-        chatcontainer.innerHTML += `<div><p>${chatMessage.user} 
-        says: ${chatMessage.msg}</p><p>Sent at: ${new Date()}</p></div>`;
+        chatcontainer.innerHTML += `<div><p>${chatMessage.player} 
+        says: ${chatMessage.msg}</p></div>`;
     });
 
-    socket.on('userDisconnect', disconnectedUser => {
-        user = JSON.parse(disconnectedUser);
-        let leavingUser = userList.find(u => u.id == user.id);
+    socket.on('operationBroadcast', msg => {
+        console.log(msg);
+        const { operation } = JSON.parse(msg);
+        operationDiv.innerHTML = operation;
+    });
 
-        userList = userList.filter(u => u.id != user.id);
-        loadUsers(userList);
-        userLeft(leavingUser);
+    socket.on('startBroadcast', msg => {
+        console.log(msg);
+        waitingDiv.classList.remove('hide');
+        resultDiv.classList.remove('hide');
+        raceDiv.classList.remove('hide');
+        waitingDiv.classList.add('hide');
+        resultDiv.classList.add('hide');
+    });
+
+    socket.on('playerMoveBroadcast', msg => {
+        console.log(msg);
+        const { player, players } = JSON.parse(msg);
+        playerList = players;
+        let tDiv = q('#'+player.id);
+        tDiv.classList.remove("t_pos_"+(player.distance-1));
+        tDiv.classList.add("t_pos_"+player.distance);
+    });
+
+    socket.on('winnerBroadcast', msg => {
+        console.log(msg);
+        const { player, players } = JSON.parse(msg);
+        playerList = players;
+        waitingDiv.classList.remove('hide');
+        resultDiv.classList.remove('hide');
+        raceDiv.classList.remove('hide');
+        waitingDiv.classList.add('hide');
+        raceDiv.classList.add('hide');
+        resultTextDiv.innerHTML=player.player+" Won!! "
+    });
+    socket.on('restartBroadcast', msg => {
+        console.log(msg);
+        const { player, players } = JSON.parse(msg);
+        playerList = players;
+        waitingDiv.classList.remove('hide');
+        resultDiv.classList.remove('hide');
+        raceDiv.classList.remove('hide');
+        resultDiv.classList.add('hide');
+        raceDiv.classList.add('hide');
+        loadPlayers(playerList);
+    });
+
+    socket.on('playerDisconnect', disconnectedPlayer => {
+        player = JSON.parse(disconnectedPlayer);
+        let leavingPlayer = playerList.find(u => u.id == player.id);
+
+        playerList = playerList.filter(u => u.id != player.id);
+        loadPlayers(playerList);
+        playerLeft(leavingPlayer);
     });
 });
 
-const userLeft = user => {
-    chatcontainer.innerHTML += `<div class="leftChat">${user.user} has left the chat</div>`
-}
-
-
-const userJoin = user => {
-    chatcontainer.innerHTML += `<div>${user} has joined chat at ${new Date()}</div>`;
-}
-
-const loadUsers = users => {
-    usersList.innerHTML = '';
-    userList = users;
-
-    for (const u of users) {
-        usersList.innerHTML += `<span>${u.user}</span>`;
-    }
-}
-
 btnLeave.onclick = e => {
-    userDiv.classList.toggle('hide');
+    playerDiv.classList.toggle('hide');
     chatDiv.classList.toggle('hide');
-    txtUser.value = '';
+    waitingDiv.classList.remove('hide');
+    raceDiv.classList.add('hide');
+    resultDiv.classList.add('hide');
+    txtPlayer.value = '';
     txtChat.value = '';
 
     socket.disconnect();
@@ -90,6 +130,50 @@ btnSend.onclick = e => {
     txtChat.value = '';
 
     socket.emit('chatMessage', JSON.stringify({
-        user: txtUser.value, msg
+        player: txtPlayer.value, msg
     }))
+}
+
+btnStart.onclick = e => {
+    waitingDiv.classList.toggle('hide');
+    raceDiv.classList.toggle('hide');
+    //resultDiv.classList.toggle('hide');
+    socket.emit('startRace', JSON.stringify({
+        player: txtPlayer.value
+    }))
+}
+
+btnRestart.onclick = e => {
+    //raceDiv.classList.toggle('hide');
+    waitingDiv.classList.toggle('hide');
+    resultDiv.classList.toggle('hide');
+    socket.emit('restartRace', JSON.stringify({
+        player: txtPlayer.value
+    }))
+}
+
+const playerLeft = player => {
+    chatcontainer.innerHTML += `<div class="leftChat">${player.player} has left the chat</div>`
+}
+
+
+const playerJoin = player => {
+    chatcontainer.innerHTML += `<div>${player} has joined</div>`;
+}
+
+const loadPlayers = players => {
+    playersList.innerHTML = '';
+    playerList = players;
+    let i = 1;
+    for (const p of players) {
+        playersList.innerHTML += `<div class="line">
+                                    <div class="p_name">
+                                        <p class="p_title">Player ${i}</p>
+                                        <p class="p_nick">${p.player}</p>
+                                    </div>
+                                    <div class="p_line"><div id="${p.id}" class="turtle t_pos_1"></div></div>
+                                    <div class="p_goal"></div>
+                                </div>`;
+                                i++;
+    }
 }
