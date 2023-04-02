@@ -94,3 +94,26 @@
 #btnStart {width: 200; margin: 1em auto; font-size: 1em;background-color: green; color: white;} 
 #btnRestart {width: 200; margin: 1em auto; font-size: 1em;background-color: green; color: white;} 
 #btnLeave {font-size: 2em;background-color: green; color: white;}
+
+
+@media only screen and (max-width: 1000px) {
+    .main{min-width: 904px; width: 904px;}
+    #leave{width: 904px;}
+    #waiting{font-size: 30px;width: 904px;}
+    #race{width: 904px;margin: 20px auto;}
+    #result{font-size: 30px;width: 904px;margin: 20px auto;}
+    .raceTrack {width: 704px;}
+    .p_line {min-width: 500px; width: 500px;}
+    .turtle {width: 50px; height: 50px;}
+    .t_pos_1{margin-left: 0px;}
+    .t_pos_2{margin-left: 50px;}
+    .t_pos_3{margin-left: 100px;}
+    .t_pos_4{margin-left: 150px;}
+    .t_pos_5{margin-left: 200px;}
+    .t_pos_6{margin-left: 250px;}
+    .t_pos_7{margin-left: 300px;}
+    .t_pos_8{margin-left: 350px;}
+    .t_pos_9{margin-left: 400px;}
+    .t_pos_10{margin-left: 450px;}
+    #chatcontainer{max-height: 300px;overflow: auto;}
+  }
