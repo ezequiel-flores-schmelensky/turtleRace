@@ -90,6 +90,7 @@ io.on('connection', socket => {
 
         players.map(player => player.distance = 1)
         result = 0;
+        raceInProgress = false;
 
         io.sockets.emit('restartBroadcast', JSON.stringify({
             player, players
@@ -99,8 +100,13 @@ io.on('connection', socket => {
 
     socket.on('disconnect', () => {
         players = players.filter(u => u.id != socket.id);
+        console.log("after player left");
+        console.log(players);
+        if (players && players.length == 0) {
+            raceInProgress = false;
+        }
         io.sockets.emit('playerDisconnect', JSON.stringify({
-            id: socket.id
+            id: socket.id, players
         }));
     });
 });

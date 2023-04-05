@@ -108,16 +108,23 @@ frm.addEventListener('submit', e => {
         raceDiv.classList.add('hide');
         txtChat.value = '';
         chatcontainer.innerHTML = '';
+        raceInProgress = false;
         loadPlayers(playerList);
     });
 
     socket.on('playerDisconnect', disconnectedPlayer => {
         let player = JSON.parse(disconnectedPlayer);
         let leavingPlayer = playerList.find(u => u.id == player.id);
-
         playerList = playerList.filter(u => u.id != player.id);
+        playerList = player.players;
+
         loadPlayers(playerList);
         playerLeft(leavingPlayer);
+
+        if (playersList && playersList.length == 0) {
+            chatcontainer.innerHTML = '';
+            raceInProgress = false;
+        }
     });
 });
 
@@ -127,6 +134,7 @@ btnLeave.onclick = e => {
     waitingDiv.classList.remove('hide');
     raceDiv.classList.add('hide');
     resultDiv.classList.add('hide');
+
     txtPlayer.value = '';
     txtChat.value = '';
 
@@ -179,7 +187,7 @@ const loadPlayers = players => {
                                         <p class="p_title">Player ${i}</p>
                                         <p class="p_nick">${p.player}</p>
                                     </div>
-                                    <div class="p_line"><div id="${p.id}" class="turtle t_pos_1"></div></div>
+                                    <div class="p_line"><div id="${p.id}" class="turtle t_pos_${p.distance}"></div></div>
                                     <div class="p_goal"></div>
                                 </div>`;
                                 i++;
