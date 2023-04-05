@@ -44,6 +44,11 @@ frm.addEventListener('submit', e => {
             txtPlayer.value = '';
             return
         }
+        
+        if(message == 'Race started'){
+            alert('The race has started. PLease wait until the race is done')
+            return
+        }
         playerDiv.classList.toggle('hide');
         chatDiv.classList.toggle('hide');
     });
@@ -68,14 +73,20 @@ frm.addEventListener('submit', e => {
         operationDiv.innerHTML = operation;
     });
 
-    socket.on('startBroadcast', msg => {
+    socket.on('startBroadcast', (msg, flag) => {
         console.log(msg);
+
+        if(flag) {
+            raceInProgress = true;
+        }
+        console.log(raceInProgress);
         waitingDiv.classList.remove('hide');
         resultDiv.classList.remove('hide');
         raceDiv.classList.remove('hide');
         waitingDiv.classList.add('hide');
         resultDiv.classList.add('hide');
     });
+
 
     socket.on('playerMoveBroadcast', msg => {
         console.log(msg);
