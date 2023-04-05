@@ -38,6 +38,11 @@ frm.addEventListener('submit', e => {
 
     socket.on('playerJoined', message => {
         console.log(message);
+        if(message == 'Invalid username'){
+            alert('Someone already took this username. Please select other username.')
+            txtPlayer.value = '';
+            return
+        }
         playerDiv.classList.toggle('hide');
         chatDiv.classList.toggle('hide');
     });
