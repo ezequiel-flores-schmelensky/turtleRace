@@ -153,6 +153,7 @@ btnLeave.onclick = e => {
 
     txtPlayer.value = '';
     txtChat.value = '';
+    loadPlayers(playerList)
 
     socket.disconnect();
 }
