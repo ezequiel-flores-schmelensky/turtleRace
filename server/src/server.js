@@ -106,6 +106,12 @@ io.on('connection', socket => {
 });
 
 const newPlayer = (player, socket, io) => {
+    for(const p of players) {
+        if(player == p.player) {
+            socket.emit('playerJoined', 'Invalid username');
+            return
+        }
+    }
     players.push({ player, id: socket.id, distance: 1 });
     console.log(players);
     socket.emit('playerJoined', 'You are now joined');
