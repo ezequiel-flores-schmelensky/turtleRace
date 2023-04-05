@@ -15,8 +15,6 @@ let players = [];
 
 // correct result
 let result = 0;
-
-// flag to track race
 let raceInProgress = false; 
 
 // When a client connects
@@ -73,9 +71,10 @@ io.on('connection', socket => {
     socket.on('startRace', player => {
         const data = JSON.parse(player);
         console.log(player);
+        raceInProgress = true;
         io.sockets.emit('startBroadcast', JSON.stringify({
             player
-        }))
+        }), raceInProgress)
         
         let op = generateOperation();
         result = op.num1*op.num2;
@@ -112,6 +111,11 @@ io.on('connection', socket => {
 });
 
 const newPlayer = (player, socket, io) => {
+    if(raceInProgress) {
+        socket.emit('playerJoined', 'Race started');
+        return
+    }
+    
     for(const p of players) {
         if(player == p.player) {
             socket.emit('playerJoined', 'Invalid username');
