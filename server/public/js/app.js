@@ -145,6 +145,7 @@ btnLeave.onclick = e => {
     waitingDiv.classList.remove('hide');
     raceDiv.classList.add('hide');
     resultDiv.classList.add('hide');
+    chatcontainer.innerHTML = '';
 
     txtPlayer.value = '';
     txtChat.value = '';
