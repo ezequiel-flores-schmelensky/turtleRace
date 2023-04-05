@@ -45,6 +45,7 @@ io.on('connection', socket => {
                     if (p.player == data.player) {
                         p.distance += 1;
                         pAux = p;
+                        break;
                     }
                 }
 

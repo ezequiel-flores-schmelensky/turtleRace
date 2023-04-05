@@ -92,7 +92,11 @@ frm.addEventListener('submit', e => {
         console.log(msg);
         const { player, players } = JSON.parse(msg);
         playerList = players;
+
+        loadPlayers(playerList);
+        console.log("********* player to move: " + player.id);
         let tDiv = q('#'+player.id);
+
         tDiv.classList.remove("t_pos_"+(player.distance-1));
         tDiv.classList.add("t_pos_"+player.distance);
     });
