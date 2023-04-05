@@ -16,6 +16,9 @@ let players = [];
 // correct result
 let result = 0;
 
+// flag to track race
+let raceInProgress = false; 
+
 // When a client connects
 io.on('connection', socket => {
 
@@ -85,9 +88,8 @@ io.on('connection', socket => {
         const data = JSON.parse(player);
         console.log(player);
 
-        for (const p of players) {
-            p.distance += 1;
-        }
+        players.map(player => player.distance = 1)
+        result = 0;
 
         io.sockets.emit('restartBroadcast', JSON.stringify({
             player, players

@@ -22,6 +22,7 @@ const resultTextDiv  = q('#resultText');
 
 let socket   = {};
 let playerList = [];
+let raceInProgress = false; 
 
 frm.addEventListener('submit', e => {
     e.preventDefault();
@@ -100,11 +101,13 @@ frm.addEventListener('submit', e => {
         raceDiv.classList.remove('hide');
         resultDiv.classList.add('hide');
         raceDiv.classList.add('hide');
+        txtChat.value = '';
+        chatcontainer.innerHTML = '';
         loadPlayers(playerList);
     });
 
     socket.on('playerDisconnect', disconnectedPlayer => {
-        player = JSON.parse(disconnectedPlayer);
+        let player = JSON.parse(disconnectedPlayer);
         let leavingPlayer = playerList.find(u => u.id == player.id);
 
         playerList = playerList.filter(u => u.id != player.id);
