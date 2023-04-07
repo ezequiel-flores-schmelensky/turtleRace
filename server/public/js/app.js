@@ -63,7 +63,7 @@ frm.addEventListener('submit', e => {
     socket.on('chatMessageBroadcast', msg => {
         console.log(msg);
         const { chatMessage } = JSON.parse(msg);
-        chatcontainer.innerHTML += `<div><p>${chatMessage.player} 
+        chatcontainer.innerHTML += `<div><p style="margin:1px;">${chatMessage.player} 
         says: ${chatMessage.msg}</p></div>`;
     });
 
