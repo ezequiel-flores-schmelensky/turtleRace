@@ -91,6 +91,7 @@ body {
 #txtChat{width: 60px; margin-right: 30px;font-size: 30px;}
 #btnSend {font-size: 2em;background-color: green; color: white; padding: 5px;}
 #chatcontainer{max-height: 300px;overflow: auto;}
+#resultText{color: white;}
 
 
 #player {width:500px; margin: 5em auto; font-size: 2em; color: white;}
